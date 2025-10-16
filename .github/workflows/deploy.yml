@@ -1,0 +1,26 @@
+name: Deploy ML API
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: docker build -t ml-api .
+
+    - name: Run container (optional test)
+      run: docker run -d -p 8000:8000 ml-api
+
+    # Optional: Push to DockerHub or deploy to cloud
+    # Add secrets: DOCKER_USERNAME, DOCKER_PASSWORD
+    # - name: Login to DockerHub
+    #   run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    # - name: Push image
+    #   run: docker tag ml-api yourname/ml-api:latest && docker push yourname/ml-api:latest
